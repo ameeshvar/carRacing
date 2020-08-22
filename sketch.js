@@ -1,29 +1,35 @@
-var ball;
+var database,form,game,player,playerCount,gameState,allPlayers,car1,car2,car3,car4
+var carArrays,car1Img,car2Img,car3Img,car4Img,trackImg,groundImg
+
+function preload(){
+    car1Img=loadImage("sprites/car1.png")
+    car2Img=loadImage("sprites/car2.png")
+    car3Img=loadImage("sprites/car3.png")
+    car4Img=loadImage("sprites/car4.png")
+    trackImg=loadImage("sprites/track.jpg")
+    groundImg=loadImage("sprites/ground.png")
+}
 
 function setup(){
-    createCanvas(500,500);
-    ball = createSprite(250,250,10,10);
-    ball.shapeColor = "red";
+createCanvas(displayWidth-20,displayHeight-30)
+database=firebase.database()
+game=new Game()
+gameState=0
+game.getGameState()
+game.start()
+
 }
+
 
 function draw(){
-    background("white");
-    if(keyDown(LEFT_ARROW)){
-        changePosition(-1,0);
-    }
-    else if(keyDown(RIGHT_ARROW)){
-        changePosition(1,0);
-    }
-    else if(keyDown(UP_ARROW)){
-        changePosition(0,-1);
-    }
-    else if(keyDown(DOWN_ARROW)){
-        changePosition(0,+1);
-    }
-    drawSprites();
+if(playerCount==4){
+    game.updateGameState(1);
 }
-
-function changePosition(x,y){
-    ball.x = ball.x + x;
-    ball.y = ball.y + y;
+if(gameState==1){
+    clear()
+    game.play()
+}
+if(gameState==2){
+game.end()
+}
 }
